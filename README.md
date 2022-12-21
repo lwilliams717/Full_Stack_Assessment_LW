@@ -44,5 +44,16 @@ When you have completed the assessment, email molly@ascentitech.com with the lin
 
 ## Final Questions
 1) How long did the assessment take to complete?  Was there any task that took significantly longer than the others, and if so why?
+The assessment took me
+The only task that took my a while was using the Retrofit async API call. I was having some trouble updating the RecyclerView inside of the activity because the variables updated in the request exist on a separate thread.
+I found a way around it based on what I've seen from a few online resources.
+And something that might seem weird upon initial review, I was experiencing an issue where the shortForecast for a period would not always display a short message. Occasionally,
+it would display an entire sentence. I figured I wouldn't have enough time to do any sophisticated String parsing, so some of the images are populated using the icon link in from the API and the Picasso image library.
+Therefore, any shortForecasts that didn't have a mapping would just be populated using Picasso.
+
 2) Were there any tasks that you initially did not know how to complete? And if so, how did you approach them and take the steps to learn how to complete them? (It’s okay if the answer is yes! Everyone learns on the job at some point)
+Yes, I have never used Retrofit before to do API requests. I am more familiar with AndroidVolley requests. 
+But, I did a lot of research into how to use Retrofit and used the code that was already given in the template to figure out how to do the API request for the Weather. The sample code was extremely helpful (and well written!) :)
+
 3) Was this assessment feasible for the time given and relatively easy to follow? Any points of feedback? 
+It was very feasible given the allotted time.

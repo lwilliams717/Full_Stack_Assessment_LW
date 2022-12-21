@@ -33,9 +33,15 @@ public class ForecastActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_forecast);
 
-        forecastViewModel = new ForecastViewModel();
+        forecastViewModel = new ForecastViewModel(this);
         //ToDo: Fetch the results from the ViewModel and populate the forecast card
+    }
+    //returns the mapping for shortforecast to icon
+    public Integer forecastToIcon(String str){
+        //-1 means there is no forecast icon that matches (error)
+        return forecastMap.getOrDefault(str, -1);
     }
 
 }

@@ -1,15 +1,28 @@
 package com.example.full_stack_assessment.ViewModels;
 
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.full_stack_assessment.Data.Forecast.Period;
 import com.example.full_stack_assessment.Data.Forecast.Weather;
 import com.example.full_stack_assessment.Data.Grid.GridCall;
 import com.example.full_stack_assessment.DataSource.WeatherApi;
+import com.example.full_stack_assessment.ForecastActivity;
+import com.example.full_stack_assessment.R;
+import com.example.full_stack_assessment.Recycler.PeriodAdapter;
 import com.google.android.gms.maps.model.LatLng;
+
+import org.w3c.dom.Text;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -47,8 +60,15 @@ public class ForecastViewModel extends ViewModel {
     //Initialize national Weather Api class
     private WeatherApi weatherApi = retrofit.create(WeatherApi.class);
 
+    //using the activity context as a global variable for recycler view
+
+    private ForecastActivity forecastActivity;
+    //list of periods
+    private List<Period> periodsList;
+
     //Api call on init of the viewModel
-    public ForecastViewModel(){
+    public ForecastViewModel(ForecastActivity forecastActivity){
+        this.forecastActivity = forecastActivity;
         makeGridApiCall();
     }
 
@@ -97,6 +117,9 @@ public class ForecastViewModel extends ViewModel {
             public void onFailure(Call<GridCall> call, Throwable t) {
                 Log.e("Forecast ViewModel Grid Call",t.toString());
                 _status.postValue(APIStatus.ERROR);
+                //display error on screen
+                APIError();
+
             }
         });
     }
@@ -107,6 +130,52 @@ public class ForecastViewModel extends ViewModel {
      */
     private void getWeatherProperties(){
         //ToDO: Write your own api call
+        String forecastString = "gridpoints/LWX/" + gridX + "," + gridY + "/forecast";
+        Call<Weather> call = weatherApi.createWeatherData(forecastString);
+
+        //The asynchronous GET request
+        call.enqueue(new Callback<Weather>(){
+            @Override
+            public void onResponse(Call<Weather> call, Response<Weather> response) {
+
+                //API response for weather object
+                Weather weather = response.body();
+
+                //get the list of periods from weather object
+                if(weather != null) {
+                    periodsList = weather.getProperties().getPeriods();
+                    //init for recyclerView
+                    RecyclerView recyclerView = forecastActivity.findViewById(R.id.recycler_view);
+                    PeriodAdapter pAdapter = new PeriodAdapter(periodsList, forecastActivity);
+                    recyclerView.setAdapter(pAdapter);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(forecastActivity, LinearLayoutManager.VERTICAL, false));
+
+                    recyclerView.addItemDecoration(new DividerItemDecoration(forecastActivity,
+                            DividerItemDecoration.VERTICAL));
+
+                    //set text view invisible
+                    TextView error_text = (TextView) forecastActivity.findViewById(R.id.textView);
+                    error_text.setVisibility(View.GONE);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Weather> call, Throwable t) {
+                Log.e("Forecast ViewModel Grid Call",t.toString());
+                _status.postValue(APIStatus.ERROR);
+                APIError();
+            }
+        });
+
+    }
+
+    private void APIError(){
+        //display error on screen
+        RecyclerView recyclerView = forecastActivity.findViewById(R.id.recycler_view);
+        recyclerView.setVisibility(View.GONE);
+        TextView error_text = (TextView) forecastActivity.findViewById(R.id.textView);
+        error_text.setText(R.string.error);
     }
 }
 

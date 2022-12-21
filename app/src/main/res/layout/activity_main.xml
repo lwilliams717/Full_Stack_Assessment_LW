@@ -4,6 +4,41 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="@drawable/cloud_background"
+
+    >
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:background="@color/black"
+        android:alpha="0.8"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        >
+
+        <TextView
+            android:id="@+id/myweatherapp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/myapp"
+            android:textSize="40sp"
+            android:gravity="center"
+            android:textColor="@color/white"
+            />
+
+        <Button
+            android:id="@+id/forecast_button"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/forecast"
+            android:textColor="@color/black"
+            android:backgroundTint="@color/white"/>
+    </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
