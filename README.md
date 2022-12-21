@@ -44,7 +44,7 @@ When you have completed the assessment, email molly@ascentitech.com with the lin
 
 ## Final Questions
 1) How long did the assessment take to complete?  Was there any task that took significantly longer than the others, and if so why?
-The assessment took me
+The assessment took me 2 hours 4 minutes and 27 seconds. 
 The only task that took my a while was using the Retrofit async API call. I was having some trouble updating the RecyclerView inside of the activity because the variables updated in the request exist on a separate thread.
 I found a way around it based on what I've seen from a few online resources.
 And something that might seem weird upon initial review, I was experiencing an issue where the shortForecast for a period would not always display a short message. Occasionally,
